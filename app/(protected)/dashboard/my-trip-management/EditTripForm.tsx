@@ -64,12 +64,28 @@ export default function EditTripForm({ trip, onSuccess }: EditTripFormProps) {
         const files = Array.from(e.target.files || []);
         const totalImages = files.length + selectedFiles.length + existingPhotos.length;
 
+        // Check total number of files
         if (totalImages > 5) {
             toast({
                 title: "Error",
                 description: "Maximum 5 images allowed",
                 variant: "destructive",
             });
+            e.target.value = ''; // Reset input
+            return;
+        }
+
+        // Check individual file sizes (5MB max per file)
+        const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+        const oversizedFiles = files.filter(file => file.size > maxSize);
+
+        if (oversizedFiles.length > 0) {
+            toast({
+                title: "Error",
+                description: `Some files are too large. Maximum size is 5MB per image.`,
+                variant: "destructive",
+            });
+            e.target.value = ''; // Reset input
             return;
         }
 
