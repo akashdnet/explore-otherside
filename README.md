@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TravBud - Travel Buddy Application
 
-## Getting Started
+TravBud is a comprehensive travel companion application built with **Next.js 16**, designed to help users organize trips, find travel buddies, and manage their travel experiences seamlessly.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### for Travelers
+- **Explore Trips**: Browse a wide range of public trips created by other users.
+- **Join Requests**: Request to join interesting trips and manage your participation status.
+- **Trip Details**: View detailed itineraries, budgets, and travel types for each trip.
+- **Profile Management**: Customize your user profile and view your travel history.
+- **Dashboard**: A personalized dashboard to manage your own trips and join requests.
+  - **Create & Edit Trips**: Easy-to-use forms for planning new adventures.
+  - **Manage Participants**: Review and approve join requests from other travelers.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### for Administrators
+- **User Management**: Manage user roles and status (active/blocked).
+- **Trip Oversight**: access to view and manage all trips on the platform.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: [Next.js 16+](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: Built with [Radix UI](https://www.radix-ui.com/) (likely via shadcn/ui)
+- **Icons**: [Lucide React](https://lucide.dev/) & React Icons
+- **Form Handling**: React Hook Form + Zod validation
+- **State Management**: Server Actions & React Hooks
 
-## Learn More
+## 📦 Installation & Setup
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/akashdnet/travbud-frontend.git
+    cd travbud-frontend
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  **Environment Variables:**
+    Create a `.env.local` file in the root directory and add the necessary environment variables:
+    ```env
+    NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1 # Or your backend API URL
+    ```
 
-## Deploy on Vercel
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📂 Project Structure
+
+- `app/`: Main application source code (App Router structure).
+    - `(public)/`: Publicly accessible routes (Home, Explore Trips, Trip Details).
+    - `(protected)/`: Routes requiring authentication (Dashboard, Profile).
+- `actions/`: Server actions for data mutation and fetching (Trip, User, Admin).
+- `components/`: Reusable UI components (buttons, modals, cards).
+- `lib/`: Utility functions and configuration.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License.

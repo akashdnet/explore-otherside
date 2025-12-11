@@ -1,9 +1,13 @@
-import { Button } from "@/components/ui/button"
+import Footer from "./(public)/_home/Footer"
+import Header from "./(public)/_home/Header"
+import HomePage from "./(public)/_home/HomePage"
 
 export default function Home() {
   return (
     <div>
-      <Button>Click me</Button>
+      <Header />
+      <HomePage />
+      <Footer />
     </div>
   )
 }
