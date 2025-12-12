@@ -1,6 +1,6 @@
+// components/RegistrationForm.tsx
 "use client";
 
-import { registerUser } from "@/actions/user";
 import ImageUpload from "@/components/comp-545";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { envList } from "@/lib/config";
 import { registerSchema, TRegister } from "@/lib/validation/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -53,50 +54,51 @@ export function RegistrationForm() {
   const onSubmit = async (values: TRegister) => {
     setIsLoading(true);
     try {
+      // ✅ নতুন FormData তৈরি করুন
       const formData = new FormData();
 
-      // Prepare structured data
-      const userData: any = {
-        name: values.name,
-        email: values.email,
-        password: values.password,
-        age: Number(values.age),
-        gender: values.gender,
-      };
+      // Required fields
+      formData.append("name", values.name);
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("age", String(values.age));
+      formData.append("gender", values.gender);
 
-      if (values.bio) userData.bio = values.bio;
-      if (values.about) userData.about = values.about;
-      if (values.currentLocation) userData.currentLocation = values.currentLocation;
-      if (values.contactNumber) userData.contactNumber = values.contactNumber;
+      // Optional fields (শুধু value থাকলে append করুন)
+      if (values.bio) formData.append("bio", values.bio);
+      if (values.about) formData.append("about", values.about);
+      if (values.currentLocation) formData.append("currentLocation", values.currentLocation);
+      if (values.contactNumber) formData.append("contactNumber", values.contactNumber);
 
-      // Convert comma-separated strings to arrays
+      // Array fields - প্রতিটি item আলাদাভাবে append করুন
       if (values.travelInterests) {
-        const interests = values.travelInterests.split(",").map(s => s.trim()).filter(s => s);
-        if (interests.length > 0) userData.travelInterests = interests;
-      }
-      if (values.visitedCountries) {
-        const countries = values.visitedCountries.split(",").map(s => s.trim()).filter(s => s);
-        if (countries.length > 0) userData.visitedCountries = countries;
+        const interests = values.travelInterests.split(",").map(s => s.trim()).filter(Boolean);
+        interests.forEach(interest => {
+          formData.append("travelInterests", interest);
+        });
       }
 
-      // Append all data fields to FormData
-      Object.keys(userData).forEach(key => {
-        if (Array.isArray(userData[key])) {
-          // Append array items individually
-          userData[key].forEach((item: string) => {
-            formData.append(key, item);
-          });
-        } else {
-          formData.append(key, userData[key]);
-        }
+      if (values.visitedCountries) {
+        const countries = values.visitedCountries.split(",").map(s => s.trim()).filter(Boolean);
+        countries.forEach(country => {
+          formData.append("visitedCountries", country);
+        });
+      }
+
+      // ✅ Image append করুন (সবার শেষে)
+      if (selectedImage) {
+        formData.append("image", selectedImage, selectedImage.name);
+      }
+
+      // ✅ API Route এ fetch করুন (Server Action নয়)
+      const response = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/register`, {
+        method: "POST",
+        body: formData,
+        // ❌ headers সেট করবেন না!
       });
 
-      // Append image if selected
-      if (selectedImage) {
-        formData.append("image", selectedImage);
-      }
+      const res = await response.json();
 
-      const res = await registerUser(formData);
       if (res?.success) {
         toast({
           title: "Success",
@@ -128,8 +130,9 @@ export function RegistrationForm() {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 max-w-2xl mx-auto"
-        encType="multipart/form-data"
       >
+        {/* ... বাকি form fields একই থাকবে ... */}
+
         {/* Name & Email */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
@@ -201,7 +204,12 @@ export function RegistrationForm() {
               <FormItem>
                 <FormLabel>Age</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="25" {...field} />
+                  <Input
+                    type="number"
+                    placeholder="25"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -331,9 +339,7 @@ export function RegistrationForm() {
           <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             Profile Photo (Optional)
           </label>
-          <ImageUpload
-            onFileChange={(file) => setSelectedImage(file)}
-          />
+          <ImageUpload onFileChange={(file) => setSelectedImage(file)} />
           {selectedImage && (
             <p className="text-sm text-slate-500">Selected: {selectedImage.name}</p>
           )}
@@ -343,6 +349,6 @@ export function RegistrationForm() {
           {isLoading ? "Registering..." : "Register"}
         </Button>
       </form>
-    </Form >
+    </Form>
   );
 }
