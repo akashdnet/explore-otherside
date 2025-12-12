@@ -4,6 +4,7 @@ import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useFileUpload } from "@/hooks/use-file-upload";
+import { useEffect } from "react";
 
 interface ImageUploadProps {
   onFileChange: (file: File | null) => void;
@@ -28,14 +29,15 @@ export default function ImageUpload({ onFileChange, maxSizeMB = 2 }: ImageUpload
     accept: "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif",
     maxSize,
     maxFiles: 1,
-    onFilesChange: (files) => {
-      if (files.length > 0 && files[0].file instanceof File) {
-        onFileChange(files[0].file);
-      } else {
-        onFileChange(null);
-      }
-    },
   });
+
+  useEffect(() => {
+    if (files.length > 0 && files[0].file instanceof File) {
+      onFileChange(files[0].file);
+    } else {
+      onFileChange(null);
+    }
+  }, [files, onFileChange]);
 
   const previewUrl = files[0]?.preview || null;
 
