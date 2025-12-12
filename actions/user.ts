@@ -9,7 +9,10 @@ export async function registerUser(formData: FormData) {
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/register`, {
             method: "POST",
-            body: formData, // Send FormData directly for multipart
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formData,
             cache: "no-store",
         });
 
