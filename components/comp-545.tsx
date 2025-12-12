@@ -11,7 +11,7 @@ interface ImageUploadProps {
   maxSizeMB?: number;
 }
 
-export default function ImageUpload({ onFileChange, maxSizeMB = 2 }: ImageUploadProps) {
+export default function ImageUpload({ onFileChange, maxSizeMB = 10 }: ImageUploadProps) {
   const maxSize = maxSizeMB * 1024 * 1024;
 
   const [
