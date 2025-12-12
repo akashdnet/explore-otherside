@@ -7,9 +7,16 @@ import { cookies } from "next/headers";
 
 export async function registerUser(formData: FormData) {
     try {
+        const payload = new FormData();
+
+        // Reconstruct FormData to ensure proper boundary handling
+        for (const [key, value] of formData.entries()) {
+            payload.append(key, value);
+        }
+
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/register`, {
             method: "POST",
-            body: formData,
+            body: payload,
         });
 
         return await res.json();
