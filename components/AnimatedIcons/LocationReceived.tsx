@@ -6,7 +6,7 @@ const LocationReceivedAnimation = () => (
     <span className={`    flex justify-center items-center bg-[#F2F2F2] rounded-2xl `}>
         <Lottie
             animationData={Icon}
-            loop={false}
+            loop={true}
             style={{ width: "70%", height: "70%" }}
         />
     </span>
