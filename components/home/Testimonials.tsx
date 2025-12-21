@@ -2,7 +2,7 @@ import { Quote, Star } from "lucide-react";
 
 const testimonials = [
   {
-    quote: '"I was hesitant about solo travel, but Travel Buddy helped me find an amazing friend to explore Italy with. It was the trip of a lifetime!"',
+    quote: '"I was hesitant about solo travel, but Explore Otherside helped me find an amazing friend to explore Italy with. It was the trip of a lifetime!"',
     name: 'Sarah K.',
     location: 'Italy Trip',
     rating: 5,

@@ -12,10 +12,10 @@ export default function Footer() {
                     <div className="col-span-2">
                         <div className="flex items-center -ml-12">
                             <LogoAnimation />
-                            <h1 className={`text-5xl font-extrabold ${caveat.className} -ml-9`}>Travel Buddy</h1>
+                            <h1 className={`text-5xl font-extrabold ${caveat.className} -ml-9`}>Explore Otherside</h1>
                         </div>
                         <p className="-mt-9">
-                            At Travel Buddy, we believe that every journey tells a story. Our mission is to turn your travel dreams into unforgettable experiences by offering personalized itineraries, seamless planning, and exceptional service. Whether you’re seeking a relaxing beach holiday, a cultural city escape, or an adventurous trek through nature, we design trips that match your unique interests and budget.
+                            At Explore Otherside, we believe that every journey tells a story. Our mission is to turn your travel dreams into unforgettable experiences by offering personalized itineraries, seamless planning, and exceptional service. Whether you’re seeking a relaxing beach holiday, a cultural city escape, or an adventurous trek through nature, we design trips that match your unique interests and budget.
                         </p>
                     </div>
                     <div className="py-9 justify-self-end  ">
@@ -49,7 +49,7 @@ export default function Footer() {
             </div>
             <hr className="my-5 border-gray-300 " />
             <div className="flex justify-center ">
-                <p>Copyright © 2025 Travel Buddy. All rights reserved.</p>
+                <p>Copyright © 2025 Explore Otherside. All rights reserved.</p>
             </div>
         </footer>
     )

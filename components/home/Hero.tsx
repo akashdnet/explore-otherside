@@ -9,15 +9,16 @@ export default function Hero() {
         <div className="space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
-              Find Your Perfect <br />
+              Plan Smarter, Travel Better <br />
               <span className="text-transparent bg-clip-text bg-linear-to-r from-[#FE9A00] to-[#FE9A00]">
-                Travel Buddy
+                Explore Outside
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-              Connect with travelers heading to similar destinations. Share costs, experiences, and make lifelong friends on your journey.
+              Discover amazing destinations and connect with fellow travelers. Share journeys, reduce costs, and create unforgettable memories together with Explore Outside.
             </p>
           </div>
+
 
           {/* Search Box */}
           <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-2 rounded-2xl shadow-xl max-w-md w-full flex items-center gap-2">
@@ -27,7 +28,7 @@ export default function Hero() {
             <input
               type="text"
               placeholder="Where do you want to go?"
-              className="flex-1 bg-transparent border-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 h-12"
+              className="flex-1 bg-transparent border-none foc text-slate-900 dark:text-white placeholder:text-slate-400 h-12"
             />
             <button className="bg-[#FE9A00] hover:bg-[#FE9A00] text-white font-semibold h-10 px-6 rounded-xl transition-colors">
               Search

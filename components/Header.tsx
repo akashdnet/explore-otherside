@@ -12,7 +12,7 @@ export default function Header() {
                 {/* logo  */}
                 <div className="flex items-center justify-center ">
                     <LogoAnimation header />
-                    <h1 className={`text-3xl font-bold ${caveat.className} -ml-3  `}>Travel Buddy</h1>
+                    <h1 className={`text-3xl font-bold ${caveat.className} -ml-3  `}>Explore Otherside</h1>
                 </div>
 
                 {/* menu */}

@@ -1,6 +1,6 @@
-# TravBud - Travel Buddy Application
+# Explore Otherside - Travel destination finder Application
 
-TravBud is a comprehensive travel companion application built with **Next.js 16**, designed to help users organize trips, find travel buddies, and manage their travel experiences seamlessly.
+Explore Otherside is a comprehensive travel companion application built with **Next.js 16**, designed to help users organize trips, find travel buddies, and manage their travel experiences seamlessly.
 
 ## 🚀 Features
 
@@ -31,8 +31,8 @@ TravBud is a comprehensive travel companion application built with **Next.js 16*
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/akashdnet/travbud-frontend.git
-    cd travbud-frontend
+    git clone https://github.com/akashdnet/explore-otherside.git
+    cd explore-otherside
     ```
 
 2.  **Install dependencies:**
