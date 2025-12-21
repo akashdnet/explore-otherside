@@ -8,9 +8,10 @@ interface TourCardGroupProps {
     title: string;
     data: any[];
     row: number;
+    exploreButton?: boolean;
 }
 
-export default function TourCardGroup({ title, data, row }: TourCardGroupProps) {
+export default function TourCardGroup({ title, data, row, exploreButton }: TourCardGroupProps) {
     return (
         <section className="space-y-8 flex flex-col items-center">
             <h1 className="text-5xl font-bold text-center text-[#FE9A00]">{title}</h1>
@@ -21,7 +22,7 @@ export default function TourCardGroup({ title, data, row }: TourCardGroupProps) 
                 ))}
             </div>
 
-            <Button className="text-center text-xl font-bold py-6 px-6 flex justify-center items-center gap-3 bg-[#dc8f1c] hover:bg-[#eb7048]">🔥<span>Explore More</span>🔥</Button>
+            {exploreButton && <Button className="text-center text-xl font-bold py-6 px-6 flex justify-center items-center gap-3 bg-[#dc8f1c] hover:bg-[#eb7048]">🔥<span>Explore More</span>🔥</Button>}
         </section>
     )
 }

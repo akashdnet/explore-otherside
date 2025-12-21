@@ -11,7 +11,7 @@ const raleway = Raleway({
 
 
 export const metadata: Metadata = {
-  title: "Travel Buddy",
+  title: "Explore Otherside",
   description: "Find your next travel destination with ease",
 };
 

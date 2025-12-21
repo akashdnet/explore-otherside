@@ -14,7 +14,7 @@ export default function HomePage() {
             <Hero />
             <Steps />
             <Banner />
-            <TourCardGroup title="Explore, Match and Travel" data={tours} row={4} />
+            <TourCardGroup title="Explore, Match and Travel" data={tours} row={4} exploreButton />
             <Testimonials />
             <WhyChooseUs />
             <FAQ />
