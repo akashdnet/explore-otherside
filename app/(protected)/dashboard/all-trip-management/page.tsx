@@ -1,7 +1,7 @@
-import { Spinner } from "@/components/ui/spinner";
+
+import LoadingAnimation from "@/components/AnimatedIcons/loading";
 import { Suspense } from "react";
 import AllTripManagementClient from "./AllTripManagementClient";
-
 
 export default function AllTripManagementPage() {
     return (
@@ -9,7 +9,7 @@ export default function AllTripManagementPage() {
             <h1 className="text-3xl font-bold text-gray-800 border-b pb-3">
                 All Trip Management
             </h1>
-            <Suspense fallback={<div className="flex justify-center p-10"><Spinner /></div>}>
+            <Suspense fallback={<div className="flex justify-center p-10"><LoadingAnimation /></div>}>
                 <AllTripManagementClient />
             </Suspense>
         </section>

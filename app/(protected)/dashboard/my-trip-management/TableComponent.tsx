@@ -1,6 +1,7 @@
 "use client";
 
 import { getMyTrips, TripQueryParams } from "@/actions/trip";
+import LoadingAnimation from "@/components/AnimatedIcons/loading";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -80,12 +81,7 @@ export default function TableComponent() {
 
     if (isLoading) {
         return (
-            <div className="w-full max-w-5xl mx-auto p-3 md:p-4 bg-white shadow-md rounded-xl space-y-4 flex items-center justify-center h-64">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-2 text-sm text-gray-500">Loading trips...</p>
-                </div>
-            </div>
+            <LoadingAnimation />
         );
     }
 

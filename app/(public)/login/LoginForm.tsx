@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { loginSchema, TLogin } from "@/lib/validation/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TriangleAlertIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -61,7 +62,7 @@ export function LoginForm() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6 max-w-sm mx-auto"
             >
-                {error && <div className="text-red-500 text-sm">{error}</div>}
+
                 <FormField
                     control={form.control}
                     name="email"
@@ -90,9 +91,10 @@ export function LoginForm() {
                     )}
                 />
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-600" disabled={isLoading}>
                     {isLoading ? "Logging in..." : "Login"}
                 </Button>
+                {error && <div className="flex items-center gap-2 text-red-500 text-sm font-bold"><TriangleAlertIcon /> {error}</div>}
             </form>
         </Form>
     );

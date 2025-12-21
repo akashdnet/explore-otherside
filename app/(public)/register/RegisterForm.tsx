@@ -69,15 +69,15 @@ export default function RegisterPage() {
   }, [state, toast, router]);
 
   return (
-    <div className="relative min-h-screen w-full font-serif">
+    <div className="relative">
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
 
       />
-      <div className="absolute inset-0 bg-black/10 hidden sm:block" />
+      <div className="absolute inset-0  hidden sm:block" />
 
-      <div className="relative flex min-h-screen w-full items-center justify-center px-6 lg:px-60 py-10 lg:justify-end lg:pl-20">
+      <div className="relative flex  w-full items-center justify-center px-6 lg:px-60 py-10 lg:justify-end lg:pl-20">
         <Card className="w-full max-w-lg shadow-2xl border border-gray-200 backdrop-blur-md bg-white/90">
           <CardContent className="space-y-4 py-6 px-6">
             <h1 className="text-center text-2xl font-bold text-gray-800 uppercase mb-4">
@@ -219,14 +219,14 @@ export default function RegisterPage() {
               <Button
                 type="submit"
                 disabled={isPending}
-                className="w-full h-10 text-lg bg-green-600 hover:bg-green-700 text-white mt-2"
+                className="w-full h-10 text-lg bg-amber-500 hover:bg-amber-600 text-white mt-2"
               >
                 {isPending ? "Registering..." : "Register"}
               </Button>
 
               <p className="text-end text-sm">
                 Already have an account?{" "}
-                <Link href="/login" className="text-blue-500">
+                <Link href="/login" className=" font-medium underline transition-colors duration-200 ease-in-out text-amber-500 hover:text-amber-600 ">
                   Login
                 </Link>
               </p>

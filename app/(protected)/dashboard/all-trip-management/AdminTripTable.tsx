@@ -2,6 +2,7 @@
 "use client";
 
 import { deleteTripAdmin } from "@/actions/trip";
+import LoadingAnimation from "@/components/AnimatedIcons/loading";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -21,7 +22,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Spinner } from "@/components/ui/spinner";
 import {
     Table,
     TableBody,
@@ -134,7 +134,7 @@ export default function AdminTripTable({ data, onRefresh, isLoading }: props) {
     };
 
     if (isLoading) {
-        return <Spinner />;
+        return <LoadingAnimation />;
     }
 
     return (
