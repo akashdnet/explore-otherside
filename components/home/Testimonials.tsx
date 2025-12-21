@@ -28,7 +28,7 @@ export default function Testimonials() {
   return (
     <section>
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">
+        <h2 className="text-5xl font-bold text-[#FE9A00] dark:text-white tracking-tight mb-4">
           What Our Travelers Say
         </h2>
         <p className="text-slate-500 dark:text-slate-400">
@@ -39,7 +39,7 @@ export default function Testimonials() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {testimonials.map((testimonial) => (
           <div key={testimonial.name} className="relative p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
-            <Quote className="absolute top-8 right-8 text-slate-100 dark:text-slate-800 size-12 -z-0 rotate-180" />
+            <Quote className="absolute top-8 right-8 text-slate-100 dark:text-slate-800 size-12 z-0 rotate-180" />
 
             <div className="flex gap-1 mb-6 text-yellow-400">
               {[...Array(testimonial.rating)].map((_, i) => (

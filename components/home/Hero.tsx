@@ -2,15 +2,15 @@ import { Search } from "lucide-react";
 
 export default function Hero() {
   return (
-    <div className="relative pt-10 pb-10 lg:pt-20 lg:pb-20">
-      {/* Background/Decorations if needed */}
+    <section className="relative  ">
+
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Text Content */}
         <div className="space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
               Find Your Perfect <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#FE9A00] to-[#FE9A00]">
                 Travel Buddy
               </span>
             </h1>
@@ -29,7 +29,7 @@ export default function Hero() {
               placeholder="Where do you want to go?"
               className="flex-1 bg-transparent border-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 h-12"
             />
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold h-10 px-6 rounded-xl transition-colors">
+            <button className="bg-[#FE9A00] hover:bg-[#FE9A00] text-white font-semibold h-10 px-6 rounded-xl transition-colors">
               Search
             </button>
           </div>
@@ -46,7 +46,7 @@ export default function Hero() {
 
         {/* Hero Image */}
         <div className="relative lg:h-[600px] w-full hidden lg:block">
-          <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-purple-500/20 rounded-[3rem] transform rotate-3 scale-95" />
+          <div className="absolute inset-0 bg-linear-to-tr from-[#FE9A00]/20 to-[#FE9A00]/20 rounded-[3rem] transform rotate-3 scale-95" />
           <div
             className="absolute inset-0 bg-cover bg-center rounded-[3rem] shadow-2xl"
             style={{
@@ -66,6 +66,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
