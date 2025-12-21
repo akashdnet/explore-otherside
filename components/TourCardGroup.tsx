@@ -16,7 +16,7 @@ export default function TourCardGroup({ title, data, row, exploreButton }: TourC
         <section className="space-y-8 flex flex-col items-center">
             <h1 className="text-5xl font-bold text-center text-[#FE9A00]">{title}</h1>
 
-            <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-${row} gap-4`}>
+            <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-${Number(row)} gap-4`}>
                 {data.map((item: any, index: number) => (
                     <TourCard key={index} tour={item} />
                 ))}
