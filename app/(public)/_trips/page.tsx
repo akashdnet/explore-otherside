@@ -1,7 +1,7 @@
 
 import { getAllTripsAdmin } from "@/actions/trip";
 import { getMyProfile } from "@/actions/user";
-import TripCard from "@/app/(public)/trips/TripCard";
+import TripCard from "@/app/(public)/_trips/TripCard";
 import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
 import Link from "next/link";

@@ -23,7 +23,7 @@ const steps = [
 export default function Steps() {
   return (
     <section className="bg-[#F2F2F2] dark:bg-slate-900/50 rounded-3xl p-10 lg:p-16 text-center">
-      <div className="max-w-2xl mx-auto mb-16">
+      <div className="max-w-2xl mx-auto ">
         <h2 className="text-5xl font-bold text-[#FE9A00] dark:text-white tracking-tight mb-4">
           How its works
         </h2>
@@ -33,7 +33,7 @@ export default function Steps() {
       </div>
 
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12">
-        {/* Connector Line (Desktop) */}
+
         <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-linear-to-r from-slate-200 via-blue-200 to-slate-200 dark:from-slate-700 dark:via-blue-900 dark:to-slate-700 border-t-2 border-dashed border-slate-300 dark:border-slate-700 z-0 " />
 
         {steps.map((step, idx) => {
