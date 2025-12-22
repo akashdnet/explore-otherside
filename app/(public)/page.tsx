@@ -1,9 +1,11 @@
+import { fetchHome } from "@/actions/trip";
 import HomePage from "@/components/home/HomePage";
 
-export default function Home() {
+export default async function Home() {
+  const response = await fetchHome();
   return (
     <>
-      <HomePage />
+      <HomePage trips={response?.trips} reviews={response?.reviews} />
     </>
   );
 }

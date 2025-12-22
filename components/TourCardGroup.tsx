@@ -1,3 +1,4 @@
+import { Trip } from "@/lib/types";
 import TourCard from "./TourCard";
 import { Button } from "./ui/button";
 
@@ -6,7 +7,7 @@ import { Button } from "./ui/button";
 
 interface TourCardGroupProps {
     title: string;
-    data: any[];
+    data: Trip[];
     row: number;
     exploreButton?: boolean;
 }
@@ -17,7 +18,7 @@ export default function TourCardGroup({ title, data, row, exploreButton }: TourC
             <h1 className="text-5xl font-bold text-center text-[#FE9A00]">{title}</h1>
 
             <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-${Number(row)} gap-4`}>
-                {data.map((item: any, index: number) => (
+                {data?.map((item: Trip, index: number) => (
                     <TourCard key={index} tour={item} />
                 ))}
             </div>

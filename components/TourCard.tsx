@@ -1,19 +1,20 @@
 
-import GuideImage from '@/public/img/guide-person-profile.jpg';
+import { Trip } from '@/lib/types';
 import { format } from 'date-fns';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from './ui/button';
 
 
 
-const guide = {
-  name: 'Alex Müller',
-  image: GuideImage,
-  rating: 4.8,
-  reviews: 124,
-};
+// const guide = {
+//   name: 'Alex Müller',
+//   image: GuideImage,
+//   rating: 4.8,
+//   reviews: 124,
+// };
 
-export default function TourCard({ tour }: { tour: any }) {
+export default function TourCard({ tour }: { tour: Trip }) {
   const formattedStartDate = format(new Date(tour.startDate), 'MMM dd, yyyy');
 
   return (
@@ -36,7 +37,7 @@ export default function TourCard({ tour }: { tour: any }) {
           <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
             {tour.location}
           </span>
-          <span>{tour.duration}</span>
+          <span>{tour.days} days</span>
         </div>
 
         {/* Title */}
@@ -63,21 +64,22 @@ export default function TourCard({ tour }: { tour: any }) {
         <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
           <div className="relative w-10 h-10 rounded-full overflow-hidden">
             <Image
-              src={guide.image}
-              alt={guide.name}
-              fill
+              src={tour?.guide?.photo || ""}
+              alt={"image"}
+              width={100}
+              height={100}
               className="object-cover"
             />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium text-gray-800">{guide.name}</p>
+            <p className="text-sm font-medium text-gray-800">{tour?.guide?.name}</p>
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
                 <svg
                   key={i}
-                  className={`w-3.5 h-3.5 ${i < Math.floor(guide.rating)
+                  className={`w-3.5 h-3.5 ${i < Math.floor(tour?.guide?.reviews?.length)
                     ? 'text-yellow-400'
-                    : i < guide.rating
+                    : i < tour.guide?.reviews?.length
                       ? 'text-yellow-400'
                       : 'text-gray-300'
                     }`}
@@ -88,7 +90,7 @@ export default function TourCard({ tour }: { tour: any }) {
                 </svg>
               ))}
               <span className="text-xs text-gray-600 ml-1">
-                {guide.rating} ({guide.reviews})
+                {tour?.guide?.reviews?.length} ({tour?.guide?.reviews?.length})
               </span>
             </div>
           </div>
@@ -97,7 +99,7 @@ export default function TourCard({ tour }: { tour: any }) {
         {/* Price & Date */}
         <div className="flex justify-between items-center text-sm text-gray-700">
           <span className="font-bold text-green-600">
-            ${tour.price}
+            ${tour?.price}
             <span className="font-normal text-gray-500"> / person</span>
           </span>
           <span className="text-gray-500">{formattedStartDate}</span>
@@ -105,8 +107,10 @@ export default function TourCard({ tour }: { tour: any }) {
 
         {/* Dual CTA Buttons */}
         <div className="flex gap-2 pt-1">
-          <Button className="flex-1 bg-white border border-[#FE9A00] text-[#FE9A00] hover:bg-[#eee3d2] hover:text-black text-sm px-3 py-2 rounded-lg transition-colors">
-            Learn More
+          <Button asChild className="flex-1 bg-white border border-[#FE9A00] text-[#FE9A00] hover:bg-[#eee3d2] hover:text-black text-sm px-3 py-2 rounded-lg transition-colors">
+            <Link href={`/explore/${tour.id}`}>
+              Learn More
+            </Link>
           </Button>
           <Button className="flex-1 bg-[#FE9A00] hover:bg-[#FE9A00] text-white text-sm px-3 py-2 rounded-lg transition-colors">
             Send Request

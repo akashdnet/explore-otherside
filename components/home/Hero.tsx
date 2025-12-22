@@ -7,7 +7,7 @@ export default function Hero() {
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Text Content */}
         <div className="space-y-8">
-          <div className="space-y-4">
+          <div suppressHydrationWarning className="space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
               Plan Smarter, Travel Better <br />
               <span className="text-transparent bg-clip-text bg-linear-to-r from-[#FE9A00] to-[#FE9A00]">
