@@ -15,7 +15,7 @@ import { Button } from './ui/button';
 // };
 
 export default function TourCard({ tour }: { tour: Trip }) {
-  const formattedStartDate = format(new Date(tour.startDate), 'MMM dd, yyyy');
+  const formattedStartDate = tour?.startDate ? format(new Date(tour.startDate), 'MMM dd, yyyy') : 'TBA';
 
   return (
     <div className="max-w-sm w-full bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">

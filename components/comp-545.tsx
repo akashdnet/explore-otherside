@@ -2,17 +2,12 @@
 
 import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { useFileUpload } from "@/hooks/use-file-upload";
-import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
-interface ImageUploadProps {
-  onFileChange: (file: File | null) => void;
-  maxSizeMB?: number;
-}
-
-export default function ImageUpload({ onFileChange, maxSizeMB = 10 }: ImageUploadProps) {
-  const maxSize = maxSizeMB * 1024 * 1024;
+export default function Component() {
+  const maxSizeMB = 2;
+  const maxSize = maxSizeMB * 1024 * 1024; // 2MB default
 
   const [
     { files, isDragging, errors },
@@ -28,18 +23,9 @@ export default function ImageUpload({ onFileChange, maxSizeMB = 10 }: ImageUploa
   ] = useFileUpload({
     accept: "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif",
     maxSize,
-    maxFiles: 1,
   });
-
-  useEffect(() => {
-    if (files.length > 0 && files[0].file instanceof File) {
-      onFileChange(files[0].file);
-    } else {
-      onFileChange(null);
-    }
-  }, [files, onFileChange]);
-
   const previewUrl = files[0]?.preview || null;
+  const _fileName = files[0]?.file.name || null;
 
   return (
     <div className="flex flex-col gap-2">
@@ -82,7 +68,6 @@ export default function ImageUpload({ onFileChange, maxSizeMB = 10 }: ImageUploa
                 className="mt-4"
                 onClick={openFileDialog}
                 variant="outline"
-                type="button"
               >
                 <UploadIcon
                   aria-hidden="true"
@@ -117,6 +102,20 @@ export default function ImageUpload({ onFileChange, maxSizeMB = 10 }: ImageUploa
           <span>{errors[0]}</span>
         </div>
       )}
+
+      <p
+        aria-live="polite"
+        className="mt-2 text-center text-muted-foreground text-xs"
+        role="region"
+      >
+        Single image uploader w/ max size (drop area + button) ∙{" "}
+        <a
+          className="underline hover:text-foreground"
+          href="https://github.com/cosscom/coss/blob/main/apps/origin/docs/use-file-upload.md"
+        >
+          API
+        </a>
+      </p>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { loginSchema, TLogin } from "@/lib/validation/auth";
+import { user_credentials } from "@/utils/dummy-data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TriangleAlertIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -91,10 +92,38 @@ export function LoginForm() {
                     )}
                 />
 
-                <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-600" disabled={isLoading}>
+                <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold h-12 rounded-xl transition-all duration-300 shadow-lg shadow-amber-500/30" disabled={isLoading}>
                     {isLoading ? "Logging in..." : "Login"}
                 </Button>
-                {error && <div className="flex items-center gap-2 text-red-500 text-sm font-bold"><TriangleAlertIcon /> {error}</div>}
+
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t border-slate-200"></span>
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-white px-2 text-slate-500 font-medium">Quick Access Demo</span>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 pb-4">
+                    {user_credentials.map((demo, key) => (
+                        <Button
+                            key={demo.email}
+                            type="button"
+                            variant="outline"
+                            onClick={() => {
+                                form.setValue('email', demo.email);
+                                form.setValue('password', demo.password);
+                            }}
+                            className={`flex flex-col h-auto py-3 gap-1 hover:border-amber-500 hover:bg-amber-50 group ${demo.email == 'superadmin@travbud.com' && 'col-span-2'}`}
+                        >
+                            <span className="text-xs font-bold text-slate-700 group-hover:text-amber-600">{demo.label}</span>
+                            <span className="text-[10px] text-slate-400">{demo.subLabel}</span>
+                        </Button>
+                    ))}
+                </div>
+
+                {error && <div className="flex items-center gap-2 p-3 bg-red-50 text-red-600 rounded-lg text-sm font-semibold border border-red-100 shadow-sm"><TriangleAlertIcon className="size-4" /> {error}</div>}
             </form>
         </Form>
     );

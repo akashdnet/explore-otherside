@@ -7,22 +7,19 @@ import { cookies } from "next/headers";
 
 export async function registerUser(_prevState: any, formData: FormData) {
     try {
-        const payload = new FormData();
-
-        // Reconstruct FormData to ensure proper boundary handling
-        for (const [key, value] of formData.entries()) {
-            payload.append(key, value);
-        }
-
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/register`, {
             method: "POST",
-            body: payload,
+            body: formData,
         });
 
-        return await res.json();
-    } catch (error) {
+        const data = await res.json();
+        return data;
+    } catch (error: any) {
         console.error("Register user error:", error);
-        throw error;
+        return {
+            success: false,
+            message: error.message || "Something went wrong during registration",
+        };
     }
 }
 
@@ -30,7 +27,7 @@ export async function getMyProfile() {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/me`, {
@@ -52,7 +49,7 @@ export async function updateMyProfile(formData: FormData) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/update/me`, {
@@ -75,7 +72,7 @@ export async function deleteMyProfile() {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/me`, {
@@ -98,7 +95,7 @@ export async function getAllUsers(params?: { page?: number; limit?: number; sear
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     const queryParams = new URLSearchParams();
     if (params?.page) queryParams.append("page", params.page.toString());
@@ -128,7 +125,7 @@ export async function getUserById(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    // if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/${id}`, {
@@ -150,7 +147,7 @@ export async function updateUserById(id: string, formData: FormData) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/update/${id}`, {
@@ -173,7 +170,7 @@ export async function deleteUserById(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/${id}`, {

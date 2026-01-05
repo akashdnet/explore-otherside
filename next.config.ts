@@ -3,7 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ["res.cloudinary.com", "cdn.pixabay.com", "example.com", "images.unsplash.com"],
+    remotePatterns: [
+      { hostname: "res.cloudinary.com" },
+      { hostname: "cdn.pixabay.com" },
+      { hostname: "example.com" },
+      { hostname: "images.unsplash.com" },
+    ],
   },
 
   experimental: {

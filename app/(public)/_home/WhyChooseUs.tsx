@@ -1,4 +1,4 @@
-import WhyChooseUsAnimation from "../AnimatedIcons/WhyChooseUs";
+import WhyChooseUsAnimation from "../../../components/AnimatedIcons/WhyChooseUs";
 
 export default function WhyChooseUs() {
     return (

@@ -1,78 +1,69 @@
 "use client";
+import { logoutUser } from '@/actions/auth';
 import { getMyProfile } from '@/actions/user';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 
 export default function AuthBtton() {
-    console.log(`AuthBtton`)
     const [user, setUser] = useState<any>(null);
+    const router = useRouter();
 
     const fetchUserProfile = async () => {
-
         try {
             const res = await getMyProfile();
             if (res?.success && res?.data) {
                 const fetchedUser = res.data;
-                if (fetchedUser.profile) {
-                    setUser(fetchedUser);
-                    console.log("User profile fetched successfully:", fetchedUser);
-                } else {
-                    setUser({
-                        profile: fetchedUser,
-                        overview: { upcomingTripList: [] }
-                    });
-                }
+                setUser(fetchedUser.profile ? fetchedUser : { profile: fetchedUser });
             }
-
         } catch (error) {
             console.error("Failed to fetch user profile:", error);
-
-        };
-
-
-
-
+        }
     }
-
-
-
-
-
 
     useEffect(() => {
         fetchUserProfile();
     }, []);
 
-
-
-
+    const handleLogout = async () => {
+        await logoutUser();
+        setUser(null);
+        router.push('/login');
+        router.refresh();
+    }
 
     return (
-        <div>
-            <ul className="flex items-center space-x-5">
-
-                {user ? (
-                    <>
-                        <li>
-                            <Link className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded" href="/dashboard">Dashboard</Link>
-                        </li>
-                        <li>
-                            <Button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded" onClick={() => { console.log("Logout") }}>Logout</Button>
-                        </li>
-                    </>
-                ) : (
-                    <>
-                        <li>
-                            <Link className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded" href="/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded" href="/register">Register</Link>
-                        </li>
-                    </>
-                )}
-
-            </ul>
+        <div className="flex items-center gap-4">
+            {user ? (
+                <>
+                    <Link href="/dashboard">
+                        <Button variant="ghost" className="font-semibold text-slate-700 hover:text-amber-600 hover:bg-amber-50">
+                            Dashboard
+                        </Button>
+                    </Link>
+                    <Button
+                        variant="default"
+                        onClick={handleLogout}
+                        className="bg-red-500 hover:bg-red-600 text-white font-bold px-6 rounded-full transition-all"
+                    >
+                        Logout
+                    </Button>
+                </>
+            ) : (
+                <>
+                    <Link href="/login">
+                        <Button variant="ghost" className="font-semibold text-slate-700 hover:text-amber-600 hover:bg-amber-50">
+                            Login
+                        </Button>
+                    </Link>
+                    <Link href="/register">
+                        <Button className="bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 rounded-full shadow-lg shadow-amber-500/30 transition-all hover:scale-105">
+                            Join Now
+                        </Button>
+                    </Link>
+                </>
+            )}
         </div>
     )
 }

@@ -1,6 +1,6 @@
-import AgendaAnimation from "../AnimatedIcons/Agenda";
-import ShareWithFriendsAnimation from "../AnimatedIcons/ShareWithFriends";
-import SignUpAnimation from "../AnimatedIcons/SignUp";
+import AgendaAnimation from "../../../components/AnimatedIcons/Agenda";
+import ShareWithFriendsAnimation from "../../../components/AnimatedIcons/ShareWithFriends";
+import SignUpAnimation from "../../../components/AnimatedIcons/SignUp";
 
 const steps = [
   {

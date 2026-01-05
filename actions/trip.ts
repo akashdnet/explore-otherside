@@ -9,7 +9,7 @@ export async function registerTrip(formData: FormData) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/register`, {
@@ -86,7 +86,7 @@ export async function updateMyTrip(id: string, formData: FormData) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/update/${id}`, {
@@ -109,7 +109,7 @@ export async function approveJoinRequest(data: { tripId: string; participantId: 
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/approve`, {
@@ -133,7 +133,7 @@ export async function deleteMyTrip(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/${id}`, {
@@ -157,7 +157,7 @@ export async function requestToJoinTrip(tripId: string, participantId: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
 
@@ -204,7 +204,7 @@ export async function cancelJoinRequest(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/cancel/${id}`, {
@@ -233,7 +233,7 @@ export async function getAllTripsAdmin(params?: {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    // if (!token) throw new Error("Unauthorized");
+    // if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     const queryParams = new URLSearchParams();
     if (params?.page) queryParams.append("page", params.page.toString());
@@ -264,7 +264,7 @@ export async function updateTripAdmin(id: string, formData: FormData) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/admin/update/${id}`, {
@@ -287,7 +287,7 @@ export async function getTripByIdAdmin(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/admin/${id}`, {
@@ -309,7 +309,7 @@ export async function deleteTripAdmin(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/admin/${id}`, {
@@ -377,25 +377,3 @@ export async function getTripById(id: string) {
 
 
 
-
-// ============ Explore Routes ============
-export async function fetchHome() {
-    try {
-        const fullUrl = `${envList.NEXT_PUBLIC_API_URL}/explorer/home`;
-        console.log("Fetching home data from:", fullUrl);
-        const res = await fetch(fullUrl, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cache: "no-store",
-        });
-
-        const json = await res.json();
-        console.log("Home data response:", json);
-        return json.data;
-    } catch (error) {
-        console.error("Get home error:", error);
-        throw error;
-    }
-}

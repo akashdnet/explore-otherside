@@ -9,7 +9,7 @@ export async function getAllUsers() {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null }; }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/all-users`, {
@@ -32,7 +32,7 @@ export async function getSingleUser(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null }; }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/${id}`, {
@@ -55,7 +55,7 @@ export async function updateUser(id: string, data: any) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null }; }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/update/${id}`, {
@@ -79,7 +79,7 @@ export async function deleteUser(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null }; }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/${id}`, {
@@ -104,7 +104,7 @@ export async function getAllTrips() {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    // if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null }; }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/admin/all-trips`, {
@@ -127,7 +127,7 @@ export async function updateAnyTrip(id: string, data: any) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null }; }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/admin/update/${id}`, {
@@ -151,7 +151,7 @@ export async function getSingleTrip(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null }; }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/admin/${id}`, {
@@ -174,7 +174,7 @@ export async function deleteAnyTrip(id: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) { return { success: false, error: "Unauthorized", data: null }; }
 
     try {
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/admin/${id}`, {

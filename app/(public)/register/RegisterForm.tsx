@@ -1,10 +1,21 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { registerUser } from "@/actions/user";
+
+import ImageUpload from "@/components/ImageUpload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+
 import {
   Select,
   SelectContent,
@@ -13,10 +24,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, useActionState, useEffect, useState } from "react";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  userRegistrationClientSchema,
+  type UserRegistrationClientValues,
+} from "./validation";
 
 const initialState = {
   success: false,
@@ -25,212 +48,373 @@ const initialState = {
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { toast } = useToast();
-  const [state, formAction, isPending] = useActionState(registerUser, initialState);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
-  // Photo handlers
-  const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith("image/")) {
-        toast({
-          title: "Error",
-          description: "Please select an image file",
-          variant: "destructive",
-        })
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setPhotoPreview(null);
-    }
-  };
+  const [state, formAction, isPending] = useActionState(
+    registerUser,
+    initialState
+  );
+
+  const form = useForm<any>({
+    resolver: zodResolver(userRegistrationClientSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      age: "" as unknown as number,
+      // age: 25,
+      gender: undefined as unknown as "Male" | "Female",
+      // gender: "Male",
+      contactNumber: "",
+      currentLocation: "",
+      bio: "",
+      about: "",
+      photo: null as unknown as File,
+      role: "user",
+    },
+    mode: "onSubmit",
+  });
 
   useEffect(() => {
     if (state?.success) {
-      toast({
-        title: "Success",
-        description: state.message || "Registration successful! Please login.",
-        className: "bg-green-500 text-white",
+      toast.success("Registration successful", {
+        description: state.message || "Please login.",
       });
       router.push("/login");
     } else if (state?.message) {
-      toast({
-        title: "Error",
+      toast.error("Registration failed", {
         description: state.message,
-        variant: "destructive",
       });
     }
-  }, [state, toast, router]);
+  }, [state, router]);
+
+  const onSubmit = (values: UserRegistrationClientValues) => {
+    const formData = new FormData();
+
+    // Append all values to FormData
+    Object.entries(values).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        if (key === "photo" && value instanceof File) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, String(value));
+        }
+      }
+    });
+
+    formAction(formData);
+  };
 
   return (
     <div className="relative">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-
-      />
-      <div className="absolute inset-0  hidden sm:block" />
-
-      <div className="relative flex  w-full items-center justify-center px-6 lg:px-60 py-10 lg:justify-end lg:pl-20">
+      <div className="relative flex w-full items-center justify-center px-6 lg:px-60  lg:justify-end lg:pl-20">
         <Card className="w-full max-w-lg shadow-2xl border border-gray-200 backdrop-blur-md bg-white/90">
           <CardContent className="space-y-4 py-6 px-6">
-            <h1 className="text-center text-2xl font-bold text-gray-800 uppercase mb-4">
-              Create Account
-            </h1>
+            <div className="flex flex-col items-center mb-6">
+              <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+                Create Account
+              </h1>
+              <p className="text-slate-500 mt-2">Join our community of travelers</p>
+            </div>
 
-            <form action={formAction} className="space-y-4">
-              {/* Name */}
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+
+
+
+                <FormField
+                  control={form.control}
+                  name="photo"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Profile Photo</FormLabel>
+                      <FormControl>
+                        <ImageUpload
+                          value={field.value}
+                          onChange={field.onChange}
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+
+
+
+
+
+
+                {/* Name */}
+                <FormField
+                  control={form.control}
                   name="name"
-                  placeholder="Enter your name"
-                  defaultValue="John Doe"
-                  required
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your name"
+                          disabled={isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              {/* Email */}
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
+                {/* Email */}
+                <FormField
+                  control={form.control}
                   name="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  defaultValue="testuser@example.com"
-                  required
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Enter your email"
+                          disabled={isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              {/* Password */}
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
+                {/* Password */}
+                <FormField
+                  control={form.control}
                   name="password"
-                  type="password"
-                  placeholder="Enter password"
-                  defaultValue="123456"
-                  required
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Enter password"
+                          disabled={isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              {/* Confirm Password */}
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <Input
-                  id="confirmPassword"
+                {/* Confirm Password */}
+                <FormField
+                  control={form.control}
                   name="confirmPassword"
-                  type="password"
-                  placeholder="Confirm password"
-                  defaultValue="123456"
-                  required
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Confirm password"
+                          disabled={isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              {/* Phone + Gender */}
-              <div className="flex gap-4">
-                <div className="w-full flex flex-col gap-1">
-                  <Label htmlFor="contactNumber">Phone</Label>
-                  <Input
-                    id="contactNumber"
+                {/* Phone + Gender */}
+                <div className="flex gap-4">
+                  <FormField
+                    control={form.control}
                     name="contactNumber"
-                    type="tel"
-                    placeholder="Contact Number"
-                    defaultValue="+8801234567890"
-                  />
-                </div>
-
-                <div className="w-full flex flex-col gap-1">
-                  <Label htmlFor="gender">Gender</Label>
-                  <Select name="gender">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select gender" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="Male">Male</SelectItem>
-                        <SelectItem value="Female">Female</SelectItem>
-                        <SelectItem value="Other">Other</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Age + Photo */}
-              <div className="flex gap-4 items-end">
-                <div className="w-1/3 flex flex-col gap-1">
-                  <Label htmlFor="age">Age</Label>
-                  <Input
-                    id="age"
-                    name="age"
-                    type="number"
-                    placeholder="Age"
-                    min="0"
-                  />
-                </div>
-                <div className="w-2/3 flex flex-col gap-1">
-                  <Label htmlFor="photo">Profile Photo</Label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      id="photo"
-                      name="image" // Changed to 'image' to match backend expectation if needed, or 'photo'
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePhotoChange}
-                      className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
-                    />
-                    {photoPreview && (
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden border">
-                        <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
-                      </div>
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Phone</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="tel"
+                            placeholder="Contact Number"
+                            disabled={isPending}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </div>
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="gender"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Gender</FormLabel>
+                        <Select
+                          disabled={isPending}
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select gender" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="Male">Male</SelectItem>
+                              <SelectItem value="Female">Female</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-              </div>
 
 
-              {/* Bio & About & Interests hidden/optional or added as needed? 
-                  The user sample didn't have them, but current app did. 
-                  I'll add valid defaults or hidden fields if required, or simple textareas.
-              */}
+                <div className="flex gap-6 items-start">
+                  <FormField
+                    control={form.control}
+                    name="age"
+                    render={({ field }) => (
+                      <FormItem className="w-1/3">
+                        <FormLabel>Age</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Age"
+                            disabled={isPending}
+                            value={(field.value as unknown as string) ?? ""}
+                            onChange={(e) => field.onChange(e.target.value)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              {/* Address / Location */}
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="currentLocation">Address / Location</Label>
-                <textarea
-                  id="currentLocation"
-                  name="currentLocation"
-                  className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="Enter your address"
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            disabled={isPending}
+                            onValueChange={field.onChange}
+                            value={field.value}
+                            className="flex flex-row gap-4 border border-gray-300 rounded-md p-2"
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="user" id="user" />
+                              <Label htmlFor="user">User</Label>
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="guide" id="guide" />
+                              <Label htmlFor="guide">Guide</Label>
+                            </div>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+                {/* Bio */}
+                <FormField
+                  control={form.control}
+                  name="bio"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Bio</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Max 100 characters"
+                          disabled={isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              {/* Submit */}
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="w-full h-10 text-lg bg-amber-500 hover:bg-amber-600 text-white mt-2"
-              >
-                {isPending ? "Registering..." : "Register"}
-              </Button>
+                {/* About */}
+                <FormField
+                  control={form.control}
+                  name="about"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>About</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Write something about you"
+                          disabled={isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <p className="text-end text-sm">
-                Already have an account?{" "}
-                <Link href="/login" className=" font-medium underline transition-colors duration-200 ease-in-out text-amber-500 hover:text-amber-600 ">
-                  Login
-                </Link>
-              </p>
-            </form>
+                {/* Current Location */}
+                <FormField
+                  control={form.control}
+                  name="currentLocation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Address / Location</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Enter your address"
+                          disabled={isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="w-full h-10 text-lg bg-amber-500 hover:bg-amber-600 text-white mt-2"
+                >
+                  {isPending ? "Registering..." : "Register"}
+                </Button>
+
+                <p className="text-end text-sm">
+                  Already have an account?{" "}
+                  <Link
+                    href="/login"
+                    className="font-medium underline transition-colors duration-200 ease-in-out text-amber-500 hover:text-amber-600"
+                  >
+                    Login
+                  </Link>
+                </p>
+              </form>
+            </Form>
           </CardContent>
         </Card>
       </div>

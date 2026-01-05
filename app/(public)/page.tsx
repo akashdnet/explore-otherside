@@ -1,5 +1,6 @@
-import { fetchHome } from "@/actions/trip";
-import HomePage from "@/components/home/HomePage";
+
+import { fetchHome } from "@/actions/explorer";
+import HomePage from "@/app/(public)/_home/HomePage";
 
 export default async function Home() {
   const response = await fetchHome();

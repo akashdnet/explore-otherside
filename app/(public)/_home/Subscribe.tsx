@@ -1,4 +1,4 @@
-import SendMailAnimation from "../AnimatedIcons/SendMail";
+import SendMailAnimation from "../../../components/AnimatedIcons/SendMail";
 
 export default function Subscribe() {
     return (

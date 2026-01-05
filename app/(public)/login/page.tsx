@@ -4,7 +4,7 @@ import { LoginForm } from "./LoginForm";
 
 export default function LoginPage() {
     return (
-        <main className="flex my-10 flex-1 items-center justify-center">
+        <main className="flex mt-4 flex-1 items-center justify-center">
             <div className="w-full max-w-md p-6 border rounded-lg shadow-2xl space-y-4">
                 <h1 className="text-center text-2xl font-bold "> Welcome Back | Login </h1>
                 <LoginForm />

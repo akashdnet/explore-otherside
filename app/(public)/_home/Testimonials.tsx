@@ -49,7 +49,7 @@ export default function Testimonials({ reviews }: { reviews: Review[] }) {
             </div>
 
             <p className="text-slate-600 dark:text-slate-300 mb-8 relative z-10 text-lg leading-relaxed">
-              {review.comment}
+              {review.comment.slice(0, 100)}...
             </p>
 
             <div className="flex items-center gap-4">

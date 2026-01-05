@@ -18,7 +18,6 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
 import Link from "next/link";
 
 
@@ -80,8 +79,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     async function fetchUser() {
       try {
         const res = await getMyProfile();
-        if (res?.success && res?.data) {
-          setUser(res.data.profile);
+        if (res?.success) {
+          // Check both res.data.profile and res.data as fallbacks
+          setUser(res.data?.profile || res.data || null);
         }
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
@@ -92,15 +92,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     fetchUser();
   }, []);
 
-
-  let role = 0
-  if (user?.role == "user") {
-    role = 0
-  } else {
-    role = 1
-  }
-
-
+  const role = user?.role === "admin" || user?.role === "guide" ? 1 : 0;
 
   return (
     <Sidebar {...props}>
@@ -109,22 +101,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground overflow-hidden">
-                {loading ? (
-                  <Link href="/">
-                    <GalleryVerticalEnd className="size-4" />
-                  </Link>
-                ) : user?.photo ? (
-                  <Image
-                    src={user.photo}
+                {user?.photo ? (
+                  <img
+                    src={user.photo.startsWith('http') ? user.photo : `http://localhost:8000/uploads/${user.photo.split(/[\\/]/).pop()}`}
                     alt={user.name || "User"}
-                    width={32}
-                    height={32}
-                    className="object-cover"
+                    className="size-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://github.com/shadcn.png";
+                    }}
                   />
                 ) : (
-                  <Link href="/">
-                    <GalleryVerticalEnd className="size-4" />
-                  </Link>
+                  <GalleryVerticalEnd className="size-4" />
                 )}
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
