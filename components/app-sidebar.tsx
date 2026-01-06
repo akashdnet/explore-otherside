@@ -22,7 +22,6 @@ import Link from "next/link";
 
 
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
       title: "User Management",
@@ -40,6 +39,26 @@ const data = {
           title: "Profile",
           url: "/profile/me",
         },
+      ],
+    },
+    {
+      title: "Guide Management",
+      url: "#",
+      items: [
+        {
+          title: "Overview",
+          url: "/dashboard/overview",
+        },
+        {
+          title: "Trip Management",
+          url: "/dashboard/guide-trip-management",
+        },
+        {
+          title: "Profile",
+          url: "/profile/me",
+
+        },
+
       ],
     },
     {
@@ -80,7 +99,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       try {
         const res = await getMyProfile();
         if (res?.success) {
-          // Check both res.data.profile and res.data as fallbacks
           setUser(res.data?.profile || res.data || null);
         }
       } catch (error) {
@@ -92,7 +110,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     fetchUser();
   }, []);
 
-  const role = user?.role === "admin" || user?.role === "guide" ? 1 : 0;
+  const role = user?.role === "admin" ? 2 : user?.role === "guide" ? 1 : 0;
 
   return (
     <Sidebar {...props}>

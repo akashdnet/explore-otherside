@@ -1,318 +1,69 @@
 "use client";
 
-import { deleteMyTrip } from "@/actions/trip";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
-import clsx from "clsx";
-import { MoreHorizontal, Pencil, Trash2, Users } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import EditTripModal from "./EditTripModal";
-import ManageParticipantsModal from "./ManageParticipantsModal";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-export type TripStatus = "open" | "full" | "completed" | "cancelled";
-
-export interface Trip {
-    _id: string;
-    destination: string;
-    description: string;
-    startDate: Date;
-    endDate: Date;
-    budget: number;
-    status: TripStatus;
-    travelType: string;
-    createdAt: Date;
-    participants?: {
-        pending?: string[];
-        approved?: string[];
-    };
+interface TripTableProps {
+    guides: any[];
 }
 
-interface props {
-    data: Trip[];
-    isLoading?: boolean;
-    onRefresh?: () => void;
-}
-
-const getStatusColor = (status: string) => {
-    switch (status?.toLowerCase()) {
-        case "open":
-            return "bg-blue-100 text-blue-700";
-        case "full":
-            return "bg-purple-100 text-purple-700";
-        case "completed":
-            return "bg-green-100 text-green-700";
-        case "cancelled":
-            return "bg-red-100 text-red-700";
-        default:
-            return "bg-gray-100 text-gray-700";
+export default function TripTable({ guides }: TripTableProps) {
+    if (guides.length === 0) {
+        return <div className="text-center py-10">No trips found.</div>;
     }
-};
-
-export default function TripTable({ data, onRefresh }: props) {
-    const { toast } = useToast();
-    const router = useRouter();
-    const [deletingTrip, setDeletingTrip] = useState<Trip | null>(null);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [editingTrip, setEditingTrip] = useState<Trip | null>(null);
-    const [editModalOpen, setEditModalOpen] = useState(false);
-    const [managingTrip, setManagingTrip] = useState<Trip | null>(null);
-    const [manageModalOpen, setManageModalOpen] = useState(false);
-
-    const handleEditClick = (trip: Trip) => {
-        setEditingTrip(trip);
-        setEditModalOpen(true);
-    };
-
-    const handleDeleteClick = (trip: Trip) => {
-        setDeletingTrip(trip);
-        setDeleteDialogOpen(true);
-    };
-
-    const handleDeleteConfirm = async () => {
-        if (!deletingTrip) return;
-
-        setIsDeleting(true);
-        try {
-            const res = await deleteMyTrip(deletingTrip._id);
-            if (res?.success) {
-                toast({
-                    title: "Success",
-                    description: "Trip deleted successfully",
-                    className: "bg-green-500 text-white",
-                });
-                setDeleteDialogOpen(false);
-                setDeletingTrip(null);
-                onRefresh?.();
-            } else {
-                toast({
-                    title: "Error",
-                    description: res?.message || "Failed to delete trip",
-                    variant: "destructive",
-                });
-            }
-        } catch (error) {
-            console.error(error);
-            toast({
-                title: "Error",
-                description: "Something went wrong",
-                variant: "destructive",
-            });
-        } finally {
-            setIsDeleting(false);
-        }
-    };
 
     return (
-        <>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="text-left">Destination</TableHead>
-                        <TableHead className="text-center">Travel Type</TableHead>
-                        <TableHead className="text-center hidden md:table-cell">Start Date</TableHead>
-                        <TableHead className="text-center hidden md:table-cell">End Date</TableHead>
-                        <TableHead className="text-right">Budget & Status</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>Photo</TableHead>
+                    <TableHead>Title by Guide</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Details</TableHead>
+                    <TableHead>Action</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {guides.map((g) => (
+                    <TableRow key={g.id}>
+                        <TableCell>
+                            <img src={g.photo} alt="Guide" className="w-10 h-10 rounded" />
+                        </TableCell>
+                        <TableCell>
+                            <div className="font-medium">{g.title}</div>
+                            <div className="text-sm text-muted-foreground">by {g.guideName}</div>
+                        </TableCell>
+                        <TableCell>
+                            <Badge
+                                className={`py-1 px-2 text-white ${g.status === "completed" ? "bg-gray-500" : g.status === "pending" ? "bg-yellow-500" : "bg-green-500"}`}
+                                variant={
+                                    g.status === "completed"
+                                        ? "secondary"
+                                        : g.status === "pending"
+                                            ? "destructive"
+                                            : "default"
+                                }
+                            >
+                                {g.status == "accepted" ? "Upcomming" : g.status}
+                            </Badge>
+                        </TableCell>
+                        <TableCell>
+                            <Button variant="link" size="sm">
+                                View
+                            </Button>
+                        </TableCell>
+                        <TableCell className="space-x-2">
+                            {g.status === "pending" ? (
+                                <Button variant="destructive" size="sm" onClick={() => alert("Cancel logic here")}>
+                                    Cancel
+                                </Button>
+                            ) : g.status == "accepted" ? "Upcomming" : <h1>Completed</h1>}
+
+                        </TableCell>
                     </TableRow>
-                </TableHeader>
-
-                <TableBody>
-                    {data?.map((trip, idx) => (
-                        <TableRow
-                            key={trip._id}
-                            className={clsx(
-                                "transition-colors",
-                                idx % 2 === 0 ? "bg-gray-50/60" : "bg-white"
-                            )}
-                        >
-                            <TableCell className="text-left">
-                                <div className="flex flex-col gap-1">
-                                    <span className="font-semibold text-gray-800">
-                                        {trip.destination}
-                                    </span>
-                                    <span className="text-xs text-gray-500 line-clamp-1">
-                                        {trip.description?.split(' ').slice(0, 15).join(' ')}
-                                        {trip.description?.split(' ').length > 15 ? '...' : ''}
-                                    </span>
-                                </div>
-                            </TableCell>
-
-                            <TableCell className="font-medium text-center">
-                                <span className="capitalize">{trip.travelType}</span>
-                            </TableCell>
-
-                            <TableCell className="text-center hidden md:table-cell">
-                                <span>
-                                    {trip?.startDate
-                                        ? new Date(trip.startDate).toLocaleDateString("en-GB", {
-                                            day: "2-digit",
-                                            month: "short",
-                                            year: "numeric",
-                                        })
-                                        : ""}
-                                </span>
-                            </TableCell>
-
-                            <TableCell className="text-center hidden md:table-cell">
-                                <span>
-                                    {trip?.endDate
-                                        ? new Date(trip.endDate).toLocaleDateString("en-GB", {
-                                            day: "2-digit",
-                                            month: "short",
-                                            year: "numeric",
-                                        })
-                                        : ""}
-                                </span>
-                            </TableCell>
-
-                            <TableCell className="text-right">
-                                <div className="flex flex-col gap-1 items-end">
-                                    <span className="flex items-center font-semibold text-gray-800">
-                                        ${trip.budget?.toLocaleString()}
-                                    </span>
-                                    <span
-                                        className={clsx(
-                                            "px-2 py-0.5 rounded-full text-xs font-semibold uppercase",
-                                            getStatusColor(trip.status)
-                                        )}
-                                    >
-                                        {trip.status}
-                                    </span>
-                                </div>
-                            </TableCell>
-
-                            <TableCell className="text-right">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                            <span className="sr-only">Open menu</span>
-                                            <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
-                                        <DropdownMenuItem onClick={() => handleEditClick(trip)}>
-                                            <Pencil className="mr-2 h-4 w-4" /> Edit Trip
-                                        </DropdownMenuItem>
-
-                                        <DropdownMenuItem onClick={() => {
-                                            setManagingTrip(trip);
-                                            setManageModalOpen(true);
-                                        }}>
-                                            <Users className="mr-2 h-4 w-4" /> Manage Requests
-                                            {trip.participants?.pending && trip.participants.pending.length > 0 && (
-                                                <span className="ml-auto bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full text-xs font-bold">
-                                                    {trip.participants.pending.length}
-                                                </span>
-                                            )}
-                                        </DropdownMenuItem>
-
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem
-                                            className="text-red-600 focus:text-red-600"
-                                            onClick={() => handleDeleteClick(trip)}
-                                        >
-                                            <Trash2 className="mr-2 h-4 w-4" /> Delete
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-
-                    {data?.length === 0 && (
-                        <TableRow>
-                            <TableCell colSpan={6} className="text-center py-6 text-gray-500">
-                                No trips found
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-
-            {/* Edit Modal */}
-            {editingTrip && (
-                <EditTripModal
-                    trip={editingTrip}
-                    open={editModalOpen}
-                    onOpenChange={setEditModalOpen}
-                    onSuccess={() => {
-                        setEditModalOpen(false);
-                        setEditingTrip(null);
-                        onRefresh?.();
-                    }}
-                />
-            )}
-
-            {/* Manage Participants Modal */}
-            {managingTrip && (
-                <ManageParticipantsModal
-                    trip={managingTrip}
-                    isOpen={manageModalOpen}
-                    onClose={() => setManageModalOpen(false)}
-                    onSuccess={() => {
-                        // Keep modal open or close? Probably keep open or refresh data.
-                        // Refreshing data is better to update numbers.
-                        onRefresh?.();
-
-                        setManageModalOpen(false);
-                        setManagingTrip(null);
-                    }}
-                />
-            )}
-
-            {/* Delete Confirmation Dialog */}
-            <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This will permanently delete the trip to{" "}
-                            <strong>{deletingTrip?.destination}</strong>. This action cannot
-                            be undone.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={handleDeleteConfirm}
-                            disabled={isDeleting}
-                            className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
-                        >
-                            {isDeleting ? "Deleting..." : "Delete"}
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </>
+                ))}
+            </TableBody>
+        </Table>
     );
 }
