@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import Link from "next/link";
 
 interface TripTableProps {
     guides: any[];
@@ -20,7 +21,7 @@ export default function TripTable({ guides }: TripTableProps) {
                     <TableHead>Photo</TableHead>
                     <TableHead>Title by Guide</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Details</TableHead>
+                    <TableHead>User Approval</TableHead>
                     <TableHead>Action</TableHead>
                 </TableRow>
             </TableHeader>
@@ -36,29 +37,23 @@ export default function TripTable({ guides }: TripTableProps) {
                         </TableCell>
                         <TableCell>
                             <Badge
-                                className={`py-1 px-2 text-white ${g.status === "completed" ? "bg-gray-500" : g.status === "pending" ? "bg-yellow-500" : "bg-green-500"}`}
-                                variant={
-                                    g.status === "completed"
-                                        ? "secondary"
-                                        : g.status === "pending"
-                                            ? "destructive"
-                                            : "default"
-                                }
+                                className={`py-1 px-2 text-white bg-linear-to-r ${g.status === "upcomming" ? "from-[#fcff9e] to-[#c67700]" : "from-[#1f4037] to-[#99f2c8]"}`}
+
                             >
-                                {g.status == "accepted" ? "Upcomming" : g.status}
+                                {g.status == "upcomming" ? "Upcomming" : "Completed"}
                             </Badge>
                         </TableCell>
                         <TableCell>
-                            <Button variant="link" size="sm">
-                                View
+                            <Button variant="outline" size="sm">
+                                Check
                             </Button>
                         </TableCell>
                         <TableCell className="space-x-2">
-                            {g.status === "pending" ? (
-                                <Button variant="destructive" size="sm">
-                                    Cancel
-                                </Button>
-                            ) : g.status == "accepted" ? "Upcomming" : <h1>Completed</h1>}
+                            <Button variant="default" asChild>
+                                <Link href={`/explore/${g.id}`}>View</Link>
+                            </Button>
+                            <Button variant="secondary">Edit</Button>
+                            <Button variant="destructive">Delete</Button>
 
                         </TableCell>
                     </TableRow>

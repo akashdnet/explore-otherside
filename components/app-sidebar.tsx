@@ -47,7 +47,7 @@ const data = {
       items: [
         {
           title: "Overview",
-          url: "/dashboard/overview",
+          url: "/dashboard/guide-overview",
         },
         {
           title: "Trip Management",
