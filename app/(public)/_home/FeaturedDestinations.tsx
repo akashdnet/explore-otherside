@@ -1,31 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Calendar, MapPin, Users } from "lucide-react";
+import { ArrowRight, Calendar, Users } from "lucide-react";
 
 const featuredDestinations = [
   {
     id: 1,
-    name: "Bali, Indonesia",
-    description: "Experience the tropical paradise with beautiful beaches and rich culture",
-    image: "https://images.unsplash.com/photo-1537214729498-8d5b1ca79b5e?q=80&w=2070&auto=format&fit=crop",
+    name: "Grand Palace, Bangkok",
+    description: "The Grand Palace in Bangkok is Thailand’s most iconic landmark, built in 1782 as the royal residence and administrative center, and still used today for ceremonial events.",
+    image: "https://images.unsplash.com/photo-1493221875746-1203de4f7a56",
     rating: 4.8,
     price: "$899",
     duration: "7 days"
   },
   {
     id: 2,
-    name: "Tokyo, Japan",
-    description: "Discover the perfect blend of traditional culture and modern technology",
-    image: "https://images.unsplash.com/photo-1544025162-9c3d3b7d6e0c?q=80&w=2070&auto=format&fit=crop",
+    name: "Arnisee, Gurtnellen, Switzerland",
+    description: " Its a small alpine lake at about 1,370 meters above sea level, surrounded by forests and mountains, known as a peaceful above the Reuss Valley. ",
+    image: "https://images.unsplash.com/photo-1462651567147-aa679fd1cfaf",
     rating: 4.9,
     price: "$1299",
     duration: "10 days"
   },
   {
     id: 3,
-    name: "Santorini, Greece",
-    description: "Breathtaking views and romantic sunsets in this Mediterranean gem",
-    image: "https://images.unsplash.com/photo-1526342191185-bc03a3e506c7?q=80&w=2070&auto=format&fit=crop",
+    name: "Île-de-France, France",
+    description: "Île-de-France is the most populous region in France, lorem ipsum dolor sit amet consectetur adipisicing elit.  known for its rich history, beautiful beaches, and vibrant culture.",
+    image: "https://images.unsplash.com/photo-1504896287989-ff1fbde00199",
     rating: 4.7,
     price: "$1499",
     duration: "8 days"
@@ -73,10 +73,7 @@ export default function FeaturedDestinations() {
                     <Calendar className="w-4 h-4" />
                     <span>{destination.duration}</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <MapPin className="w-4 h-4" />
-                    <span>Beach</span>
-                  </div>
+
                   <div className="flex items-center gap-1">
                     <Users className="w-4 h-4" />
                     <span>Groups</span>

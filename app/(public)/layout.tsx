@@ -29,7 +29,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Header />
-        <div className="flex-1 container mx-auto md:max-w-6xl space-y-10">
+        <div className="flex-1 container mx-auto md:max-w-6xl">
           {children}
         </div>
         <Footer />

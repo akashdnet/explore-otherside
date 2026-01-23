@@ -22,7 +22,7 @@ const steps = [
 
 export default function Steps() {
   return (
-    <section className="bg-[#F2F2F2] dark:bg-slate-900/50 rounded-3xl p-10 lg:p-16 text-center">
+    <section className="bg-[#F2F2F2] dark:bg-slate-900/50 rounded-3xl py-20 px-10 lg:px-16 text-center my-10">
       <div className="max-w-2xl mx-auto ">
         <h2 className="text-5xl font-bold text-[#FE9A00] dark:text-white tracking-tight mb-4">
           How its works

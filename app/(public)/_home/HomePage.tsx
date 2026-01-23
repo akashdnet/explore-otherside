@@ -13,7 +13,7 @@ import WhyChooseUs from './WhyChooseUs'
 
 export default function HomePage({ trips, reviews }: { trips: Trip[], reviews: Review[] }) {
     return (
-        <>
+        <div className="flex flex-col">
             <Hero />
             <Steps />
             <Banner />
@@ -25,6 +25,6 @@ export default function HomePage({ trips, reviews }: { trips: Trip[], reviews: R
             <WhyChooseUs />
             <FAQ />
             <Subscribe />
-        </>
+        </div>
     )
 }

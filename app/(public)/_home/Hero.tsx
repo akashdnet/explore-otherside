@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative  ">
+    <section className="relative pt-8 pb-16 -mt-4">
 
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Text Content */}

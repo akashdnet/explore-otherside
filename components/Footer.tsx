@@ -11,9 +11,9 @@ export default function Footer() {
             <div className="container mx-auto md:max-w-6xl px-4">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     <div className="col-span-1 md:col-span-2 space-y-6">
-                        <div className="flex items-center -ml-4">
+                        <div className="flex items-center -ml-4 relative">
                             <LogoAnimation />
-                            <h1 className={`text-4xl font-extrabold text-white ${caveat.className} -ml-6`}>Explore Otherside</h1>
+                            <h1 className={`text-4xl font-extrabold text-white ${caveat.className} ml-28 mb-5`}>Explore Otherside</h1>
                         </div>
                         <p className="text-slate-400 max-w-md leading-relaxed">
                             At Explore Otherside, we believe that every journey tells a story. Our mission is to turn your travel dreams into unforgettable experiences by offering personalized itineraries, seamless planning, and exceptional service.
