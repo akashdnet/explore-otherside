@@ -45,6 +45,29 @@ export async function getMyProfile() {
     }
 }
 
+export async function getMyProfileOverview() {
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("accessToken")?.value;
+
+    if (!token) { return { success: false, error: "Unauthorized", data: null } }
+
+    try {
+        const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/users/profile-overview`, {
+            method: "GET",
+            headers: {
+                Authorization: `${token}`,
+            },
+            cache: "no-store",
+        });
+
+        return await res.json();
+    } catch (error) {
+        console.error("Get my profile overview error:", error);
+        throw error;
+    }
+}
+
 export async function updateMyProfile(formData: FormData) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;

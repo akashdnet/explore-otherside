@@ -21,7 +21,7 @@ export default function HomePage({ trips, reviews }: { trips: Trip[], reviews: R
             <FeaturedDestinations />
             <TravelStats />
             <TravelTips />
-            <Testimonials reviews={reviews} />
+            <Testimonials />
             <WhyChooseUs />
             <FAQ />
             <Subscribe />

@@ -1,27 +1,40 @@
 "use server";
 
 import { envList } from "@/lib/config";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 // ============ Creator Routes ============
 
-export async function registerTrip(formData: FormData) {
+export async function registerTrip(data: FormData | any) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
     if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
+        const isFormData = data instanceof FormData;
+        const headers: any = {
+            Authorization: `${token}`,
+        };
+
+        if (!isFormData) {
+            headers["Content-Type"] = "application/json";
+        }
+
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/register`, {
             method: "POST",
-            headers: {
-                Authorization: `${token}`,
-            },
-            body: formData,
+            headers,
+            body: isFormData ? data : JSON.stringify(data),
             cache: "no-store",
         });
 
-        return await res.json();
+        const result = await res.json();
+        if (result.success) {
+            revalidatePath("/dashboard/guide-trip-management");
+            revalidatePath("/explore");
+        }
+        return result;
     } catch (error) {
         console.error("Register trip error:", error);
         throw error;
@@ -82,23 +95,35 @@ export async function getMyTrips(params?: TripQueryParams) {
     }
 }
 
-export async function updateMyTrip(id: string, formData: FormData) {
+export async function updateMyTrip(id: string, data: FormData | any) {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
     if (!token) { return { success: false, error: "Unauthorized", data: null } }
 
     try {
+        const isFormData = data instanceof FormData;
+        const headers: any = {
+            Authorization: `${token}`,
+        };
+
+        if (!isFormData) {
+            headers["Content-Type"] = "application/json";
+        }
+
         const res = await fetch(`${envList.NEXT_PUBLIC_API_URL}/trips/update/${id}`, {
             method: "PATCH",
-            headers: {
-                Authorization: `${token}`,
-            },
-            body: formData,
+            headers,
+            body: isFormData ? data : JSON.stringify(data),
             cache: "no-store",
         });
 
-        return await res.json();
+        const result = await res.json();
+        if (result.success) {
+            revalidatePath("/dashboard/guide-trip-management");
+            revalidatePath("/explore");
+        }
+        return result;
     } catch (error) {
         console.error("Update my trip error:", error);
         throw error;
@@ -122,7 +147,11 @@ export async function approveJoinRequest(data: { tripId: string; participantId: 
             cache: "no-store",
         });
 
-        return await res.json();
+        const result = await res.json();
+        if (result.success) {
+            revalidatePath("/dashboard/guide-trip-management");
+        }
+        return result;
     } catch (error) {
         console.error("Approve join request error:", error);
         throw error;
@@ -144,7 +173,12 @@ export async function deleteMyTrip(id: string) {
             cache: "no-store",
         });
 
-        return await res.json();
+        const result = await res.json();
+        if (result.success) {
+            revalidatePath("/dashboard/guide-trip-management");
+            revalidatePath("/explore");
+        }
+        return result;
     } catch (error) {
         console.error("Delete my trip error:", error);
         throw error;
@@ -171,7 +205,12 @@ export async function requestToJoinTrip(tripId: string, participantId: string) {
             body: JSON.stringify({ tripId, participantId }),
         });
 
-        return await res.json();
+        const result = await res.json();
+        if (result.success) {
+            revalidatePath("/dashboard/guide-trip-management");
+            revalidatePath("/explore");
+        }
+        return result;
     } catch (error) {
         console.error("Request to join trip error:", error);
         throw error;

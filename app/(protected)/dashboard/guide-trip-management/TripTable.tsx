@@ -6,11 +6,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import Link from "next/link";
 
 interface TripTableProps {
-    guides: any[];
+    trips: any[];
+    onEdit: (trip: any) => void;
+    onDelete: (id: string) => void;
 }
 
-export default function TripTable({ guides }: TripTableProps) {
-    if (guides.length === 0) {
+export default function TripTable({ trips, onEdit, onDelete }: TripTableProps) {
+    if (!trips || trips.length === 0) {
         return <div className="text-center py-10">No trips found.</div>;
     }
 
@@ -19,42 +21,59 @@ export default function TripTable({ guides }: TripTableProps) {
             <TableHeader>
                 <TableRow>
                     <TableHead>Photo</TableHead>
-                    <TableHead>Title by Guide</TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Dates</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>User Approval</TableHead>
                     <TableHead>Action</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {guides.map((g) => (
-                    <TableRow key={g.id}>
+                {trips.map((trip) => (
+                    <TableRow key={trip.id || trip._id}>
                         <TableCell>
-                            <img src={g.photo} alt="Guide" className="w-10 h-10 rounded" />
+                            <img
+                                src={trip.photos?.[0] || trip.image || "/placeholder.jpg"}
+                                alt="Trip"
+                                className="w-10 h-10 rounded object-cover"
+                            />
                         </TableCell>
                         <TableCell>
-                            <div className="font-medium">{g.title}</div>
-                            <div className="text-sm text-muted-foreground">by {g.guideName}</div>
+                            <div className="font-medium">{trip.name || trip.title}</div>
+                            <div className="text-sm text-muted-foreground">{trip.location}</div>
+                        </TableCell>
+                        <TableCell>
+                            <div className="text-sm">
+                                {trip.startDate ? new Date(trip.startDate).toLocaleDateString() : "TBD"}
+                            </div>
                         </TableCell>
                         <TableCell>
                             <Badge
-                                className={`py-1 px-2 text-white bg-linear-to-r ${g.status === "upcomming" ? "from-[#fcff9e] to-[#c67700]" : "from-[#1f4037] to-[#99f2c8]"}`}
-
+                                className={`py-1 px-2 text-white bg-linear-to-r ${trip.status === "Open" ? "from-green-600 to-green-400" :
+                                        trip.status === "Full" ? "from-yellow-600 to-yellow-400" :
+                                            "from-slate-600 to-slate-400"
+                                    }`}
                             >
-                                {g.status == "upcomming" ? "Upcomming" : "Completed"}
+                                {trip.status}
                             </Badge>
                         </TableCell>
-                        <TableCell>
-                            <Button variant="outline" size="sm">
-                                Check
-                            </Button>
-                        </TableCell>
                         <TableCell className="space-x-2">
-                            <Button variant="default" asChild>
-                                <Link href={`/explore/${g.id}`}>View</Link>
+                            <Button variant="default" asChild size="sm">
+                                <Link href={`/explore/${trip.id || trip._id}`}>View</Link>
                             </Button>
-                            <Button variant="secondary">Edit</Button>
-                            <Button variant="destructive">Delete</Button>
-
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => onEdit(trip)}
+                            >
+                                Edit
+                            </Button>
+                            <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => onDelete(trip.id || trip._id)}
+                            >
+                                Delete
+                            </Button>
                         </TableCell>
                     </TableRow>
                 ))}

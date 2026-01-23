@@ -47,7 +47,7 @@ const data = {
       items: [
         {
           title: "Overview",
-          url: "/dashboard/guide-overview",
+          url: "/dashboard/overview",
         },
         {
           title: "Trip Management",
@@ -116,6 +116,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar {...props}>
       <SidebarHeader>
         <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <GalleryVerticalEnd className="size-4" />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <span className="font-semibold">Explore</span>
+                  <span className="">Otherside</span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground overflow-hidden">

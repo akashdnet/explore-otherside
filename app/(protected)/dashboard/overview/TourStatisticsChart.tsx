@@ -3,16 +3,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-const data = [
-    { name: "Jan", tours: 2 },
-    { name: "Feb", tours: 4 },
-    { name: "Mar", tours: 1 },
-    { name: "Apr", tours: 3 },
-    { name: "May", tours: 5 },
-    { name: "Jun", tours: 2 },
-];
+interface ChartData {
+    name: string;
+    tours: number;
+}
 
-export default function TourStatisticsChart() {
+interface TourStatisticsChartProps {
+    data: ChartData[];
+}
+
+export default function TourStatisticsChart({ data }: TourStatisticsChartProps) {
     return (
         <Card className="shadow-md border-none lg:col-span-2">
             <CardHeader>
