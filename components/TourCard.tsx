@@ -46,25 +46,13 @@ export default function TourCard({ tour }: { tour: Trip }) {
         {/* Description */}
         <p className="text-gray-600 text-sm line-clamp-2">{tour.description}</p>
 
-        {/* Itinerary Preview */}
-        <ul className="text-xs text-gray-500 list-disc list-inside mt-1 space-y-0.5">
-          {tour.itinerary.slice(0, 2).map((item: any, idx: number) => (
-            <li key={idx} className="truncate">
-              {item}
-            </li>
-          ))}
-          {tour.itinerary.length > 2 && (
-            <li className="text-blue-600 font-medium">
-              +{tour.itinerary.length - 2} more days
-            </li>
-          )}
-        </ul>
+
 
         {/* Tour Guide Info */}
         <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
           <div className="relative w-10 h-10 rounded-full overflow-hidden">
             <Image
-              src={tour?.guide?.photo || ""}
+              src={tour?.guide?.photo || "https://i.ibb.co.com/9FHxS79/58509043-9439678.jpg"}
               alt={"image"}
               width={100}
               height={100}
@@ -72,7 +60,10 @@ export default function TourCard({ tour }: { tour: Trip }) {
             />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium text-gray-800">{tour?.guide?.name}</p>
+            <p className="text-sm font-medium text-gray-800">
+              Guide:
+              <span className="font-bold ml-2">{tour?.guide?.name || "Mr. Tour Guide"}</span>
+            </p>
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
                 <svg
@@ -113,7 +104,7 @@ export default function TourCard({ tour }: { tour: Trip }) {
             </Link>
           </Button>
           <Button className="flex-1 bg-[#FE9A00] hover:bg-[#FE9A00] text-white text-sm px-3 py-2 rounded-lg transition-colors">
-            Send Request
+            Book Now
           </Button>
         </div>
       </div>

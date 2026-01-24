@@ -2,7 +2,7 @@ import { Review, Trip } from '@/lib/types'
 import TourCardGroup from '../../../components/TourCardGroup'
 import Banner from './Banner'
 import FAQ from './FAQ'
-import FeaturedDestinations from './FeaturedDestinations'
+import FeaturedDestinations from './FeaturedDestinations/FeaturedDestinations'
 import Hero from './Hero'
 import Steps from './Steps'
 import Subscribe from './Subscribe'
@@ -16,8 +16,8 @@ export default function HomePage({ trips, reviews }: { trips: Trip[], reviews: R
         <div className="flex flex-col">
             <Hero />
             <Steps />
-            <Banner />
             <TourCardGroup title="Explore, Match and Travel" data={trips} row={4} exploreButton />
+            <Banner />
             <FeaturedDestinations />
             <TravelStats />
             <TravelTips />
