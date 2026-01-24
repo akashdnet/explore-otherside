@@ -61,7 +61,7 @@ const testimonials: Testimonial[] = [
 
 export default function Testimonial() {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className=" bg-gray-50">
       <div className="text-center mb-12">
         <h2 className="text-5xl font-bold text-[#FE9A00] dark:text-white tracking-tight mb-4">
           What Our Travelers Say

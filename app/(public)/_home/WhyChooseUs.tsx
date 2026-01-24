@@ -1,8 +1,9 @@
-import WhyChooseUsAnimation from "../../../components/AnimatedIcons/WhyChooseUs";
+import WhyChooseUsAnimation from "@/components/AnimatedIcons/WhyChooseUs";
+
 
 export default function WhyChooseUs() {
     return (
-        <section className="grid grid-cols-2 gap-10 items-center justify-between py-20">
+        <section className="grid grid-cols-2 gap-10 items-center justify-between ">
 
 
 

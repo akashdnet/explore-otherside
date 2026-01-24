@@ -13,7 +13,7 @@ import WhyChooseUs from './WhyChooseUs'
 
 export default function HomePage({ trips, reviews }: { trips: Trip[], reviews: Review[] }) {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-24">
             <Hero />
             <Steps />
             <TourCardGroup title="Explore, Match and Travel" data={trips} row={4} exploreButton />

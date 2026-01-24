@@ -1,7 +1,7 @@
 
 export default function Subscribe() {
     return (
-        <section className="shadow-2xl rounded-2xl py-18">
+        <section className="shadow-2xl rounded-2xl pb-10">
             <h1 className="text-5xl font-bold text-center text-[#FE9A00] mb-8">Subscribe to our newsletter</h1>
             <div className="flex gap-2 justify-center relative items-center ">
                 {/* image

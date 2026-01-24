@@ -37,7 +37,7 @@ const FAQData = [
 
 export default function FAQ() {
     return (
-        <section className="space-y-9 pt-16 pb-8 ">
+        <section className="space-y-9  ">
             <h1 className="text-5xl font-bold text-center text-[#FE9A00]">FAQ</h1>
             <Accordion
                 type="single"

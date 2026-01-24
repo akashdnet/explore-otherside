@@ -3,7 +3,7 @@ import Icon from "@/public/lotties/WhyChooseUs.json";
 import Lottie from "lottie-react";
 
 const WhyChooseUsAnimation = () => (
-    <span className="flex justify-center items-center  rounded-2xl ">
+    <span className="flex justify-end items-center  rounded-2xl ">
         <Lottie
             animationData={Icon}
             loop={true}
